@@ -75,3 +75,12 @@ DoubleStatus:
     status_3:
       properties:
         value: 3.3
+
+DuplicateEnum:
+  path: status
+  type: enum
+  values:
+    one: 1
+    two: 2
+    three: 3
+    #four: 3 # Duplicate value throws error
