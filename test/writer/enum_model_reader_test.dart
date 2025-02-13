@@ -390,5 +390,20 @@ Gender:
     FEMALE: female
 """,
             ));
+
+    test(
+        'Enum cant have duplicate json value',
+        () => testEnumError(
+              expectedError:
+                  'Exception: Duplicate jsonValue 1 found on field female on enum Gender',
+              enumYml: """
+Gender:
+  path: user/person/
+  type: enum
+  values:
+    MALE: 1
+    FEMALE: 1
+""",
+            ));
   });
 }

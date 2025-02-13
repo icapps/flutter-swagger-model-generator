@@ -226,6 +226,11 @@ class YmlGeneratorConfig {
           );
         }
 
+        _checkDuplicateEnumValue(
+          fields: fields,
+          enumName: key,
+        );
+
         final enumModel = EnumModel(
           addJsonValueToProperties: value['use_default_json_value'] ?? true,
           generateExtension: value['generate_extension'] == true,
@@ -284,6 +289,24 @@ class YmlGeneratorConfig {
         ));
       }
     });
+  }
+
+  void _checkDuplicateEnumValue({
+    required List<EnumField> fields,
+    required String enumName,
+  }) {
+    final seenKeys = <String>{};
+
+    for (final field in fields) {
+      final jsonValue = field.values
+          .firstWhereOrNull((field) => field.propertyName == 'jsonValue');
+      if (jsonValue == null) continue;
+      final key = '${jsonValue.value}-${jsonValue.propertyName}';
+      if (!seenKeys.add(key)) {
+        throw Exception(
+            'Duplicate jsonValue ${jsonValue.value} found on field ${field.name} on enum $enumName');
+      }
+    }
   }
 
   Field getField(String name, YamlMap property,

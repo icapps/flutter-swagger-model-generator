@@ -30,13 +30,10 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _willPop,
-      child: Navigator(
-        key: navigationKey,
-        initialRoute: HomeScreen.routeName,
-        onGenerateRoute: onGenerateRoute,
-      ),
+    return Navigator(
+      key: navigationKey,
+      initialRoute: HomeScreen.routeName,
+      onGenerateRoute: onGenerateRoute,
     );
   }
 
@@ -48,14 +45,6 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget> {
       default:
         return null;
     }
-  }
-
-  Future<bool> _willPop() async {
-    final currentState = navigationKey.currentState;
-    if (currentState == null) {
-      return true;
-    }
-    return !await currentState.maybePop();
   }
 
   void closeDialog() => Navigator.of(context, rootNavigator: true).pop();
